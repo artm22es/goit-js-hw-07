@@ -14,14 +14,20 @@ function createMarkup(arr) {
       src="${preview}"
       data-source="${original}"
       alt="${description}"
+      width="300"
     />
   </a>
 </li>`).join('')
 }
 
 function handlerImgClick(event) {
-    if (event.target === event.currentTarget) {
-        return
-    }
+  if (event.target === event.currentTarget) {
+    return
+  }
+  
+  const currentTarget = event.target.closest('.gallery-item')
+  const maxSizeImg = currentTarget.dataset.source
+ 
+
 
 }
