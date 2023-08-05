@@ -7,27 +7,36 @@ galleryList.insertAdjacentHTML('beforeend', createMarkup(galleryItems))
 galleryList.addEventListener('click', handlerImgClick)
 
 function createMarkup(arr) {
-    return arr.map(({ preview, original, description}) => `<li class="gallery-item">
-  <a class="gallery-link" href="${original}">
+    return arr.map(({ preview, original, description}) => `<li class="gallery__item">
+  <a class="gallery__link" href="${original}">
     <img
-      class="gallery-image"
+      class="gallery__image"
       src="${preview}"
       data-source="${original}"
       alt="${description}"
-      width="300"
     />
   </a>
 </li>`).join('')
 }
 
+
 function handlerImgClick(event) {
+  event.preventDefault()
   if (event.target === event.currentTarget) {
-    return
+    return;
   }
+const largeImg = event.target.dataset.source
+  const instance = basicLightbox.create(`
+	<div class="modal">
+  <img src="${largeImg}" width="800" height="600"/>
+  </div>
+`)
+  instance.show()
   
-  const currentTarget = event.target.closest('.gallery-item')
-  const maxSizeImg = currentTarget.dataset.source
- 
-
-
+  galleryList.addEventListener('keydown', evt => {
+    if (evt.key === 'Escape') {
+      instance.close()
+    }
+  })
 }
+
