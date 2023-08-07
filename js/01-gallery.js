@@ -25,18 +25,24 @@ function handlerImgClick(event) {
   if (event.target === event.currentTarget) {
     return;
   }
-const largeImg = event.target.dataset.source
+  const largeImg = event.target.dataset.source
   const instance = basicLightbox.create(`
 	<div class="modal">
   <img src="${largeImg}" width="800" height="600"/>
   </div>
-`)
+`, {
+    onShow: () => {
+      document.addEventListener('keydown', onEscKeyPress)
+    },
+    onClose: () => {
+      document.removeEventListener('keydown', onEscKeyPress)
+    }
+  })
   instance.show()
-  
-  galleryList.addEventListener('keydown', evt => {
+
+  function onEscKeyPress(evt) {
     if (evt.key === 'Escape') {
       instance.close()
     }
-  })
+  }
 }
-
